@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 
 class MovieElement extends Component {
+
+    mouseEnter = () => {
+        this.props.updateSelectedMovie(this.props.movie.title)
+    }
+
     render() {
         return (
-            <div className="w-50 p-2">
+            <div onMouseEnter={this.mouseEnter} className="w-50 p-2">
                 <div className="border d-flex">
-                    <img width="150" height="200" src="https://fr.web.img6.acsta.net/pictures/20/10/02/12/21/3764004.png" alt="Star Wras" />
+                    <img width="150" height="200" src={this.props.movie.img} alt="" />
                     <div className="flex-fill d-flex flex-column p-3">
-                        <h5>Star Wars</h5>
+                        <h5>{this.props.movie.title}</h5>
                         <hr className="w-100"></hr>
-                        <p>La conclusion de la saga Skywalker. De nouvelles légendes vont naître dans cette bataille épique pour la liberté.</p>
+                        <span>{this.props.movie.details}</span>
                     </div>
                 </div>
             </div>
