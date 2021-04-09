@@ -1,26 +1,42 @@
 import { Header, MovieDetails, MovieList, Loading } from "./components";
 import { Component } from 'react';
-import dataMovies from "./components/dataMovies";
+import apiMovie from './conf/api.movie'
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: null,
-      selectedMovie: 0
+      selectedMovie: 0,
+      loaded: false
     }
-
-    setTimeout(() => {
-      this.setState({
-        movies: dataMovies,
-        loaded: true
-      })
-    }, 2000)
   }
 
   updateSelectedMovie = (index) => {
     this.setState({
       selectedMovie: index
+    })
+  }
+
+  componentDidMount() {
+    apiMovie.get('/discover/movie')
+            .then( response => response.data.results)
+            .then( apiMovie => {
+              const movies = apiMovie.map(m => ({
+                img: 'https://image.tmdb.org/t/p/w500' + m.poster_path,
+                title: m.title,
+                details: `${ m.release_date } | ${ m.vote_average }/10 (${ m.vote_count })`,
+                description: m.overview
+              }))
+              this.updateMovies(movies)
+            })
+            .catch( err => console.log(err))
+  }
+
+  updateMovies(movies) {
+    this.setState({
+      movies,
+      loaded: true
     })
   }
 
