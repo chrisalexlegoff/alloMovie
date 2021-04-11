@@ -2,8 +2,9 @@ import { Header } from "./components";
 import { Component } from 'react';
 import apiMovie, { apiMovieMap } from './conf/api.movie';
 import Films from './features/films';
-import favoris from "./features/favoris";
+import Favoris from './features/favoris';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import apiFirebase from "./conf/api.firebase";
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class App extends Component {
       movies: null,
       selectedMovie: 0,
       loaded: false,
-      favoris: []
+      favoris: null
     }
   }
 
@@ -30,31 +31,51 @@ class App extends Component {
         this.updateMovies(movies)
       })
       .catch(err => console.log(err))
+    apiFirebase.get('favoris.json')
+               .then( response => {
+                  let favoris = response.data ? response.data : [];
+                  this.updateFavoris(favoris)
+                })
   }
 
   updateMovies = (movies) => {
     this.setState({
       movies,
-      loaded: true
+      loaded: this.state.favoris ? true : false
+    })
+  }
+
+  updateFavoris = (favoris) => {
+    this.setState({
+      favoris,
+      loaded: this.state.movies ? true : false
     })
   }
 
   addFavori = (title) => {
-    const favorisAjout = this.state.favoris.slice()
+    const favorisAjout = [ ...this.state.favoris ]
     const film = this.state.movies.find( m => m.title === title)
     favorisAjout.push(film)
     this.setState({
       favoris: favorisAjout
+    }, () => {
+      this.saveFavoris()
     })
   }
-
+  
   removeFavori = (title) => {
-    const favorisSupprime = this.state.favoris.slice()
+    const favorisSupprime = [ ...this.state.favoris ]
     const index = this.state.favoris.findIndex(f => f.title === title)
     favorisSupprime.splice(index, 1)
     this.setState({
       favoris: favorisSupprime
+    }, () => {
+      this.saveFavoris()
     })
+  }
+  
+  saveFavoris = () => {
+    apiFirebase.put('favoris.json', this.state.favoris)
   }
 
   render() {
@@ -74,11 +95,20 @@ class App extends Component {
                   selectedMovie={this.state.selectedMovie}
                   addFavori={ this.addFavori }
                   removeFavori={ this.removeFavori }
-                  favoris={ this.state.favoris.map( f => f.title) }
+                  favoris={ this.state.favoris }
                 />
               )
             }} />
-            <Route path="/favoris" component={favoris} />
+            <Route path="/favoris" render={ (props) => {
+              return(
+                <Favoris
+                  { ...props }
+                  loaded={this.state.loaded}
+                  favoris={ this.state.favoris }
+                  removeFavori={ this.removeFavori }
+                />                
+              )
+            }} />
             <Redirect to="/films" />
           </Switch>
         </div>
