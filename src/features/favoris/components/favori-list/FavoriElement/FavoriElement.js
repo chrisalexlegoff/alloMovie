@@ -12,7 +12,7 @@ class FavoriElement extends Component {
                     <hr className="w-100"></hr>
                     <p className="flex-fill">{this.props.favori.details}</p>
                     <div className="d-flex flex-row justify-content-end">
-                        <button onClick={ () => { this.props.removeFavori(this.props.favori.title) } } className="btn btn-small btn-danger"> Supprimer </button>
+                        <button style={{fontSize: 'xx-small'}} onClick={ () => { this.props.removeFavori(this.props.favori.title) } } className="btn btn-small btn-danger"> Retirer des favoris </button>
                     </div>
                 </div>
             </div>

@@ -35,11 +35,11 @@ class MovieElement extends Component {
                     <hr className="w-100"></hr>
                     <p className="flex-fill">{this.props.movie.details}</p>
                     <div className="d-flex flex-row justify-content-end">
-                        <Link onClick={() => localStorage.setItem('movie', JSON.stringify(this.props.movie))} className="btn btn-small btn-success mr-4" to="/detail"> Detail </Link> 
+                        <Link  style={{fontSize: 'xx-small'}} onClick={() => localStorage.setItem('movie', JSON.stringify(this.props.movie))} className="btn btn-small btn-success mr-4" to="/detail"> Voir le détail </Link> 
                         {this.props.isFavori ? (
-                            <button onClick={() => { this.props.removeFavori(this.props.movie.title) }} className="btn btn-small btn-danger"> Supprimer </button>
+                            <button style={{fontSize: 'xx-small'}} onClick={() => { this.props.removeFavori(this.props.movie.title) }} className="btn btn-small btn-danger"> Retirer des favoris </button>
                         ) : (
-                            <button onClick={() => { this.props.addFavori(this.props.movie.title) }} className="btn btn-small btn-primary"> Ajouter </button>
+                            <button style={{fontSize: 'xx-small'}} onClick={() => { this.props.addFavori(this.props.movie.title) }} className="btn btn-small btn-primary"> Ajouter aux favoris </button>
                         )}
                     </div>
                 </div>
