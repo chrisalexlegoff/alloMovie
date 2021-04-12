@@ -124,6 +124,9 @@ class App extends Component {
                     movies={ this.state.movies }
                     index={ this.state.selectedMovie }
                     updateSelectedMovie={ this.updateSelectedMovie }
+                    addFavori={ this.addFavori }
+                    removeFavori={ this.removeFavori }
+                    favoris={ this.state.favoris }
                   /> 
                   ) : (
                     <Loading />
