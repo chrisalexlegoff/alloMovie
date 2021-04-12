@@ -1,5 +1,5 @@
 import React from 'react';
-import { MovieList, MovieDetails, SearchBar } from './components'
+import { MovieList, SearchBar } from './components'
 import Loading from '../../components/utils/Loading'
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -17,9 +17,9 @@ export default (props) => {
             removeFavori={ props.removeFavori }
             addFavori={ props.addFavori }
           />
-          <MovieDetails
+          {/* <MovieDetails
             movie={props.movies[props.selectedMovie]}
-          />
+          /> */}
         </div>
       ) : (
         <Loading />
@@ -27,4 +27,3 @@ export default (props) => {
     </>
   )
 }
-

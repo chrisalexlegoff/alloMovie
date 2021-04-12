@@ -1,20 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-class MovieDetails extends Component {
-    render() {
-        return (
-            <div className="w-25 bg-light p-4 d-flex flex-column">
-                <h5>{this.props.movie.title}</h5>
-                <hr className="w-100" />
-                <div>
-                    <img className="d-block mx-auto w-100" src={this.props.movie.img} alt="" />
+
+function MovieDetails() {
+    let history = useHistory();
+
+    function handleClick() {
+        history.push("/home");
+    }
+    const movie = JSON.parse(localStorage.getItem('movie'))
+    return (
+
+        <div className="m-auto d-flex flex-column bg-light">
+            <div className="d-flex flex-column p-4"><h5>{movie.title}</h5></div>
+            <img className="mx-auto d-block mx-auto" src={movie.img} alt="" />
+            <div className="flex-fill d-flex flex-column p-3">
+                <div className="d-flex flex-row justify-content-end">
+                    <button onClick={() => handleClick()} className="btn btn-small btn-success mr-4"> Retour </button>
                 </div>
                 <hr className="w-100" />
-                <span className="text-secondary">{this.props.movie.details}</span>
-                <span>{this.props.movie.description}</span>
-            </div>
-        );
-    }
+                <p className="flex-fill">{movie.details}</p>
+                <p className="flex-fill">{movie.description}</p>    
+            </div> 
+        </div>
+    );
 }
 
 export default MovieDetails;

@@ -1,10 +1,11 @@
-import { Header } from "./components";
+import { Header, Loading } from "./components";
 import { Component } from 'react';
 import apiMovie, { apiMovieMap } from './conf/api.movie';
 import Films from './features/films';
 import Favoris from './features/favoris';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import apiFirebase from "./conf/api.firebase";
+import { MovieDetails } from "./features/films/components";
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
   }
 
   updateSelectedMovie = (index) => {
+    
     this.setState({
       selectedMovie: index
     })
@@ -35,7 +37,8 @@ class App extends Component {
                .then( response => {
                   let favoris = response.data ? response.data : [];
                   this.updateFavoris(favoris)
-                })
+                })// localStorage.clear()
+                
   }
 
   updateMovies = (movies) => {
@@ -109,6 +112,25 @@ class App extends Component {
                 />                
               )
             }} />
+            <Route path="/detail" render={ (props) => { 
+              return(
+                 
+                this.state.loaded ? (
+                
+                <MovieDetails
+                    { ...props }
+                    loaded={ this.state.loaded }
+                    movie={this.state.movies[this.state.selectedMovie]}
+                    movies={ this.state.movies }
+                    index={ this.state.selectedMovie }
+                    updateSelectedMovie={ this.updateSelectedMovie }
+                  /> 
+                  ) : (
+                    <Loading />
+                )) }}
+                  
+              
+            />
             <Redirect to="/films" />
           </Switch>
         </div>
