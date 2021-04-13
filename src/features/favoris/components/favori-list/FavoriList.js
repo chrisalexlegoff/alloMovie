@@ -1,6 +1,6 @@
 import React from 'react';
 import FavoriElement from './FavoriElement/FavoriElement';
-import Sorry from '../../../../asset/sorry.jpg'
+import Sorry from '../../../../asset/sorry.jpg';
 import { useHistory } from 'react-router-dom';
 
 

@@ -1,4 +1,4 @@
-import { Header, Loading } from "./components";
+import { ErrorSearch, Header, Loading } from "./components";
 import { Component } from 'react';
 import apiMovie, { apiMovieMap } from './conf/api.movie';
 import Films from './features/films';
@@ -31,13 +31,14 @@ class App extends Component {
       .then(apiMovie => {
         const movies = apiMovie.map(apiMovieMap)
         this.updateMovies(movies)
+        console.log({movies});
       })
       .catch(err => console.log(err))
     apiFirebase.get('favoris.json')
                .then( response => {
                   let favoris = response.data ? response.data : [];
                   this.updateFavoris(favoris)
-                })// localStorage.clear()
+                })
                 
   }
 
@@ -82,11 +83,22 @@ class App extends Component {
   }
 
   render() {
+    const moviesHistory = this.state.movies
     return (
       <Router>
         <div className="App d-flex flex-column">
-          <Header />
+          <Header moviesHistory={ moviesHistory }
+                  updateMovies={this.updateMovies}
+                  movies={this.state.movies}
+                  />
           <Switch>
+            <Route path="/Error404" render={(props) => {
+              return (
+                <ErrorSearch
+                  { ...props }
+                />
+              )
+            }} />
             <Route path="/films" render={(props) => {
               return (
                 <Films

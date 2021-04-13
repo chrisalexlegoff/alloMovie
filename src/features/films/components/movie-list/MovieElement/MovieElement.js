@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { Loading } from '../../../../../components';
 import Style from './MovieElement.module.scss';
+import { Link } from 'react-router-dom';
 
 
 class MovieElement extends Component {
@@ -12,17 +11,17 @@ class MovieElement extends Component {
 
     }
 
-    detailOnClik = (props) => {
-        return (
-            <>
-                { this.props.loaded ? (
-                    <Redirect to="/detail" />
-                ) : (
-                    <Loading />
-                )}
-            </>
-        )
-    }
+    // detailOnClik = (props) => {
+    //     return (
+    //         <>
+    //             { this.props.loaded ? (
+    //                 <Redirect to="/detail" />
+    //             ) : (
+    //                 <Loading />
+    //             )}
+    //         </>
+    //     )
+    // }
 
     render() {
 
